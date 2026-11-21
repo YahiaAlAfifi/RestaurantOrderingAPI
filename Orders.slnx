@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="Orders.API/Orders.API.csproj" />
+  <Project Path="Orders.Core/Orders.Core.csproj" Id="64880142-542b-4429-afd1-41949fa53858" />
+  <Project Path="Orders.Data/Orders.Data.csproj" Id="d0855330-5fb7-4a34-9142-7b928a16f9ea" />
+  <Project Path="Orders.Infrastructure/Orders.Infrastructure.csproj" Id="ec48804b-c6ba-485e-bc88-322d383afd3f" />
 </Solution>
