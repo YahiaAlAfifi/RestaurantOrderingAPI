@@ -18,8 +18,30 @@ namespace Orders.API.Data
             builder.Entity<OrderItem>()
                 .HasKey(x => new { x.OrderId, x.MealId });
 
+            builder.Entity<OrderItem>()
+                .HasOne(x => x.Order)
+                .WithMany(x => x.OrderItems)
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<User>()
                 .HasQueryFilter(x => !x.IsDelete);
+
+            builder.Entity<User>()
+                .Property(x => x.Latitude)
+                .HasPrecision(9, 6);
+
+            builder.Entity<User>()
+                .Property(x => x.Longitude)
+                .HasPrecision(9, 6);
+
+            builder.Entity<Resturant>()
+                .Property(x => x.Latitude)
+                .HasPrecision(9, 6);
+
+            builder.Entity<Resturant>()
+                .Property(x => x.Longitude)
+                .HasPrecision(9, 6);
         }
 
         public DbSet<Resturant> Resturants { get; set; } = null!;

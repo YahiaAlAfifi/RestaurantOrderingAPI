@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orders.API.Data;
 using Orders.Data.Models;
+using Orders.Infrastructure.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ builder.Services
     .AddIdentity<User, IdentityRole>(options =>
         options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<OrdersDbContext>();
+
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile<AutomapperProfile>();
+});
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
