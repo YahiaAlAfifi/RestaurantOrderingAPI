@@ -15,44 +15,51 @@ namespace Orders.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAll(string searchKey)
+        public async Task<IActionResult> GetAll(
+            string? searchKey = null)
         {
-            var categories = _categoryService.GetAll(searchKey);
+            var categories =
+                await _categoryService.GetAll(searchKey);
 
-            return Ok(GetResponse(categories));
+            return Ok(await GetResponse(categories));
         }
 
         [HttpGet]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var category = _categoryService.Get(id);
+            var category =
+                await _categoryService.Get(id);
 
-            return Ok(GetResponse(category));
+            return Ok(await GetResponse(category));
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCategoryDto dto)
+        public async Task<IActionResult> Create(
+            [FromBody] CreateCategoryDto dto)
         {
-            var savedId = _categoryService.Create(dto);
+            var savedId =
+                await _categoryService.Create(dto);
 
-            return Ok(GetResponse(savedId));
+            return Ok(await GetResponse(savedId));
         }
 
         [HttpPut]
-        public IActionResult Update(UpdateCategoryDto dto)
+        public async Task<IActionResult> Update(
+            UpdateCategoryDto dto)
         {
-            var savedId = _categoryService.Update(dto);
+            var savedId =
+                await _categoryService.Update(dto);
 
-            return Ok(GetResponse(savedId));
+            return Ok(await GetResponse(savedId));
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var deletedId = _categoryService.Delete(id);
+            var deletedId =
+                await _categoryService.Delete(id);
 
-            return Ok(GetResponse(deletedId));
+            return Ok(await GetResponse(deletedId));
         }
-
     }
 }

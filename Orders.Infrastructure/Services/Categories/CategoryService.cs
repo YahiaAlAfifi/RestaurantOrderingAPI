@@ -18,12 +18,13 @@ namespace Orders.Infrastructure.Services.Categories
             _mapper = mapper;
         }
 
-        public async Task<List<CategoryViewModel>> GetAll(string searchKey)
+        public async Task<List<CategoryViewModel>> GetAll(string? searchKey)
         {
             var categories = _db.Categories
                 .Where(x =>
-                    string.IsNullOrWhiteSpace(searchKey) ||
-                    x.Name.Contains(searchKey))
+                    !x.IsDelete &&
+                    (string.IsNullOrWhiteSpace(searchKey) ||
+                     x.Name.Contains(searchKey)))
                 .Select(x => new CategoryViewModel
                 {
                     Id = x.Id,
@@ -47,7 +48,8 @@ namespace Orders.Infrastructure.Services.Categories
         public async Task<int> Update(UpdateCategoryDto dto)
         {
             var category = _db.Categories
-                .SingleOrDefault(x => x.Id == dto.Id);
+                .SingleOrDefault(x =>
+                    x.Id == dto.Id && !x.IsDelete);
 
             if (category == null)
             {
@@ -64,7 +66,8 @@ namespace Orders.Infrastructure.Services.Categories
         public async Task<int> Delete(int id)
         {
             var category = _db.Categories
-                .SingleOrDefault(x => x.Id == id);
+                .SingleOrDefault(x =>
+                    x.Id == id && !x.IsDelete);
 
             if (category == null)
             {
@@ -82,7 +85,8 @@ namespace Orders.Infrastructure.Services.Categories
         public async Task<CategoryViewModel> Get(int id)
         {
             var category = _db.Categories
-                .SingleOrDefault(x => x.Id == id);
+                .SingleOrDefault(x =>
+                    x.Id == id && !x.IsDelete);
 
             if (category == null)
             {
