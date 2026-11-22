@@ -4,6 +4,7 @@ using Orders.API.Data;
 using Orders.Data.Models;
 using Orders.Infrastructure.AutoMapper;
 using Orders.Infrastructure.Services.Categories;
+using Orders.Infrastructure.Services.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddAutoMapper(config =>
 });
 
 builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
