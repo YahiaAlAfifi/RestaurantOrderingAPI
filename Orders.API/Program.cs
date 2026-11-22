@@ -5,6 +5,7 @@ using Orders.Data.Models;
 using Orders.Infrastructure.AutoMapper;
 using Orders.Infrastructure.Services.Categories;
 using Orders.Infrastructure.Services.Users;
+using Orders.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,9 @@ builder.Services.AddAutoMapper(config =>
     config.AddProfile<AutomapperProfile>();
 });
 
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<IUserService, UserService>();
+//builder.Services.AddTransient<ICategoryService, CategoryService>();
+//builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.RegisterServices();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
