@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Orders.API.Data;
 using Orders.Data.Models;
 using Orders.Infrastructure.AutoMapper;
+using Orders.Infrastructure.Services.Categories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,8 @@ builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<AutomapperProfile>();
 });
+
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
