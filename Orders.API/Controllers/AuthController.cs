@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Orders.Core.Dtos;
 using Orders.Infrastructure.Services.Auth;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Orders.API.Controllers
 {
@@ -13,6 +15,7 @@ namespace Orders.API.Controllers
             _authService = authService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(
             [FromBody] LoginDto dto)

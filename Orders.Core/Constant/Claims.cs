@@ -7,5 +7,6 @@ namespace Orders.Core.Constant
     public static class Claims
     {
         public const string UserId = "UserId";
+        public const string Phone = "Phone";
     }
 }

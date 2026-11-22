@@ -11,6 +11,9 @@ using Orders.Core.Constant;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Options;
+using Orders.Core.Options;
+
 
 namespace Orders.Infrastructure.Services.Auth
 {
@@ -19,15 +22,18 @@ namespace Orders.Infrastructure.Services.Auth
         private readonly OrdersDbContext _db;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly JwtOptions _options;
 
         public AuthService(
             OrdersDbContext db,
             UserManager<User> userManager,
-            IMapper mapper)
+            IMapper mapper,
+            IOptions<JwtOptions> options)
         {
             _db = db;
             _userManager = userManager;
             _mapper = mapper;
+            _options = options.Value;
         }
 
         public async Task<LoginResponseViewModel> Login(LoginDto dto)
@@ -64,7 +70,7 @@ namespace Orders.Infrastructure.Services.Auth
             var claims = new List<Claim>
     {
         new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
-        new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+        new Claim(Claims.Phone, user.PhoneNumber!),
         new Claim(Claims.UserId, user.Id),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
     };
@@ -76,17 +82,17 @@ namespace Orders.Infrastructure.Services.Auth
             }
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("vhvhljlnljn23fkhjgfvjf"));
+                Encoding.UTF8.GetBytes(_options.SecurityKey));
 
             var credentials = new SigningCredentials(
                 key,
                 SecurityAlgorithms.HmacSha256);
 
             var expires = DateTime.Now.AddMonths(7);
-
+            
             var accessToken = new JwtSecurityToken(
-                "https://localhost:7147/",
-                "https://localhost:7147/",
+                _options.Issuer,
+                _options.Issuer,
                 claims,
                 expires: expires,
                 signingCredentials: credentials);
