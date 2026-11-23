@@ -2,6 +2,8 @@
 using Orders.Infrastructure.Services.Categories;
 using Orders.Infrastructure.Services.Users;
 using Orders.Infrastructure.Services.Auth;
+using Orders.Infrastructure.Services.Resturants;
+
 
 namespace Orders.Infrastructure.Extensions
 {
@@ -13,6 +15,7 @@ namespace Orders.Infrastructure.Extensions
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IResturantService, ResturantService>();
             return services;
         }
     }
